@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>Sign Up page</title>
+    <style>
+        body {
+            background-color: bisque;
+        }
+
+        #mainbody {
+            position: relative;
+        }
+
+        #mainform{
+            position: absolute;
+            right:45%;
+        }
+        
+    </style>
+
+<body>
+    <center>
+        <h2>Sign Up</h2>
+    </center>
+    <div id="mainbody">
+        <form method="POST" id="mainform" action = "{% url "signup" %}"> 
+            {%csrf_token%}
+            <div class="formfield">
+                <!-- <input type="text" placeholder="Username" name="username" /> -->
+                {{form.username}}
+            </div>
+            <div class="formfield">
+                <!-- <input type="password" placeholder="Password" name="password" /> -->
+                {{form.password}}
+            </div>
+            <div class="formfield">
+                <button type="submit" value="Login">
+                    <strong>Sign Up</strong>
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

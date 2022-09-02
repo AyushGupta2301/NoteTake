@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>NoteTake - Home</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Style the body */
+body {
+  font-family: Arial;
+  margin: 0;
+}
+
+#noteslink{
+    text-decoration: none;
+    color: black;
+}
+
+.mainpara{
+    size: 200px;
+    text-align: center;
+}
+
+/* Header/logo Title */
+.header {
+  padding: 60px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+}
+
+
+/* Column container */
+.row {  
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Create two unequal columns that sits next to each other */
+/* Sidebar/left column */
+.side {
+  flex: 50%;
+  background-color: #f1f1f1;
+  padding: 20px;
+}
+
+/* Main column */
+.main {
+  flex: 50%;
+  background-color: white;
+  padding: 20px;
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #ddd;
+}
+
+/* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
+  .row, .navbar {   
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>Welcome to NoteTake</h1>
+  <p>Your Online <b>Notepad</b> on the go.</p>
+</div>
+
+
+<!-- The flexible grid (content) -->
+<div class="row">
+  <div class="side">
+    <h2>Take Notes</h2>
+    <h4>Take notes on the go with NoteTake</h4>
+    <b>NoteTake</b> is an online notepad created for all your note taking needs. Click the button below to start your note taking journey with <b>NoteTake</b>.
+    <p class="mainpara"><button type="button"><a id="noteslink" href="./notesenter">Take Notes</a></button></p>
+    
+  </div>
+  <div class="main">
+    <h2>Search Notes</h2>
+    <h4>Already a user ?</h4>
+    <b>NoteTake</b> safely stores all your notes in it's <i>secure and scalable</i> database. Click the button below to sign in and start taking and searching your important notes.
+    <p class="mainpara"><button type="button"><a id="noteslink" href="./notesview">Search Notes</a></button></p>
+ </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <h2>By Ayush Gupta</h2>
+</div>
+
+</body>
+</html>
+
+
