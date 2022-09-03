@@ -5,21 +5,38 @@ import django.http as dhttp
 import NoteTake.form as form 
 import NoteTake.models as models
 
-# will create a function checksignedin to see if the user is signed in using cookie, else will redirect to the signin page
-# format will be like home-> note enter or view will invoke the cookie check, if not found redirect to sign in page then after successful signin return home.
+
 
 def homeview(request):
-    return render(request, "home.html", {})
+    response = render(request, "home.html", {}) 
+    response.set_cookie('entry','false')
+    try:
+        request.COOKIES['login']
+        return response
+    except(KeyError):
+        response.set_cookie('login','false')
+        return response
 
 def signinpage(request):
-    return render(request,"notesignin.html",{'form': form.LoginnSignupForm()})
+    try:
+        login = request.COOKIES['login']
+        if(login=='false'):
+            return render(request,"notesignin.html",{'form': form.LoginnSignupForm()})
+    except(KeyError):
+        dhttp.HttpResponse("Please Enable Cookies and try again")
 
 def signuppage(request):
-    return render(request,"notesignup.html",{'form': form.LoginnSignupForm()})
+    try:
+        login = request.COOKIES['login']
+        if(login=='false'):
+            return render(request,"notesignup.html",{'form': form.LoginnSignupForm()})
+    except(KeyError):
+        dhttp.HttpResponse("Please Enable Cookies and try again")
+    
 
 def logout(request):
     response = redirect("http://localhost:8000/notetake/")
-    response.delete_cookie('login')
+    response.set_cookie('login','false')
     return response
 
 def noteview(request):
@@ -27,16 +44,23 @@ def noteview(request):
         login = request.COOKIES['login']
         if(login=='true'):
             return render(request,"noteview.html", {})
+        else:
+            return redirect("http://localhost:8000/notetake/signinpage")
     except(KeyError):
-        return redirect("http://localhost:8000/notetake/signinpage")
+        return dhttp.HttpResponse("Please enable cookies and try again")
 
 def noteenter(request):
     try:
         login = request.COOKIES['login']
         if(login=='true'):
-            return render(request,"notetake.html", {'form':form.NoteForm()})
+            if(request.COOKIES['entry']=='false'):
+                return render(request,"notetake.html", {'form':form.NoteForm(),'note_entry':'Enter Notes, Have Fun'})
+            else:
+                return render(request,"notetake.html", {'form':form.NoteForm(),'note_entry':'Note Taken Successfully :)'})
+        else:
+            return redirect("http://localhost:8000/notetake/signinpage")
     except(KeyError):
-        return redirect("http://localhost:8000/notetake/signinpage")
+        return dhttp.HttpResponse("Please enable cookies and try again") 
 
 def signup(request):
     if(request.method=="POST"):
@@ -81,5 +105,7 @@ def takenote(request):
     else:
         return dhttp.HttpResponse("Form not valid")
     newnote.save()
-    return redirect("./notesenter");
+    response = redirect("./notesenter")
+    response.set_cookie('entry','true')
+    return response
 
