@@ -1,93 +1,196 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Note taking page</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body {
-  font-family: Arial;
-  margin: 0;
-}
+  <title>Note taking page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+      overflow-y: hidden;
+    }
 
-.navbar{
-  text-align: right;
-  background-color: #1abc9c;
-  color: white;
-}
+    #noteslink {
+      text-decoration: none;
+      color: inherit;
+    }
 
-.navheading{
-  display: block;
-  float: left;
-  border: none;
-  font-size: xx-large;
-  margin-top: 7px;
-}
+    .navbar {
+      text-align: right;
+      background-color: #1abc9c;
+      color: white;
+    }
 
-#mainnavbar{
-  list-style-type: none;
-}
+    .navheading {
+      display: block;
+      float: left;
+      border: none;
+      font-size: xx-large;
+      margin-top: 7px;
+    }
 
-#mainnavbar li{
-  display: inline;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-left: 10px;
-  padding-right:10px;
-  border-radius: 10px;
-  border-right: 2px solid transparent;
-}
+    #mainnavbar {
+      list-style-type: none;
+    }
 
-#mainnavbar li:last-child{
-  margin-right: 4px;
-  border-right: 0px;
-}
+    #mainnavbar li {
+      display: inline;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border-radius: 10px;
+      border-right: 2px solid transparent;
+    }
 
-#mainnavbar li:hover{
-  background-color: #4be7c8;
-  color: grey;
-}
+    #mainnavbar li:last-child {
+      margin-right: 4px;
+      border-right: 0px;
+    }
 
-#mainnoteform{
-  background-color: #f1f1f1;
-  text-align: center;
-}
+    #mainnavbar li:hover {
+      background-color: #4be7c8;
+      color: grey;
+    }
 
-div{
-  border:2px solid transparent;
-}
-</style>
+    #mainnoteform {
+      background-color: #f1f1f1;
+      text-align: center;
+      padding: 50px;
+    }
+
+    .formfieldinner {
+      width: 90%;
+      height: 50px;
+      font-size: 18px;
+      font-family: monospace;
+      padding: 20px;
+      opacity: 0.5;
+      border-radius: 15px;
+      outline: none;
+      border: hidden;
+    }
+
+    #currdate:hover, #currdate:focus{
+      width: 90%;
+      height: 50px;
+      font-size: 18px;
+      font-family: monospace;
+      padding: 20px;
+      opacity: 1.0;
+      border-radius: 15px;
+      outline: none;
+      border: hidden;
+    }
+    
+
+    #mainnoteform textarea {
+      width: 90%;
+      height: 500px;
+      font-size: 18px;
+      font-family: monospace;
+      padding: 20px;
+      opacity: 0.5;
+      border-radius: 15px;
+      outline: none;
+      border: hidden;
+    }
+
+    #mainnoteform textarea:focus {
+      width: 90%;
+      height: 500px;
+      font-size: 18px;
+      font-family: monospace;
+      padding: 20px;
+      opacity: 1.0;
+      border-radius: 15px;
+      background-color: #FFFFFF;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      outline: none;
+      border: hidden;
+    }
+
+    .formfieldinner:focus {
+      width: 90%;
+      height: 50px;
+      font-family: monospace;
+      font-size: 18px;
+      padding: 20px;
+      opacity: 1.0;
+      border-radius: 15px;
+      background-color: #FFFFFF;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      outline: none;
+      border: none;
+    }
+
+    #mainnoteform input[type=submit] {
+      width: 150px;
+      font-size: x-large;
+      border-radius: 10px;
+      border: hidden;
+      background-color: #1abc9c;
+      opacity: 0.8;
+      transition: width 1s;
+    }
+
+    #mainnoteform input[type=submit]:hover {
+      opacity: 1;
+      cursor: pointer;
+      width: 200px;
+    }
+
+    .footer{
+      background-color: #f1f1f1;
+      border: 2px solid transparent;
+      height: 200px;
+    }
+
+    div {
+      border: 2px solid transparent;
+    }
+  </style>
 </head>
+
 <body>
-<div class="maincontainer">
-  <div class="navbar">
-    <div class="navheading">NoteTake - Note Taking Page</div>
-    <ul id="mainnavbar">
-      <li>Home</li>
-      <li>Take Notes</li>
-      <li>Search Notes</li>
-      <li id="logprompt"><a href="../logout">Logout</a></li>
-    </ul>
+  <div class="maincontainer">
+    <div class="navbar">
+      <div class="navheading">NoteTake - Note Taking Page</div>
+      <ul id="mainnavbar">
+        <li><a id="noteslink" href="../">Home</a></li>
+        <li><a id="noteslink" href="../notesenter">Take Notes</a></li>
+        <li><a id="noteslink" href="../notesview">Search Notes</a></li>
+        <li id="logprompt"><a id="noteslink" href="../logout">Logout</a></li>
+      </ul>
+    </div>
+    <div class="body">
+      <form id="mainnoteform" action="{% url "takenote" %}" method="POST">
+        {%csrf_token%}
+        <div class="formfield">
+          {{form.date}}
+        </div>
+        <div class="formfield">
+          {{form.title}}
+        </div>
+        <div class="formfield">
+          {{form.text}}
+        </div>
+        <div class="formfield">
+          <input type="submit" value="Submit Note">
+        </div>
+      </form>
+    </div>
+    <div class="footer">
+      <!-- Empty for later use might display recent notes or something -->
+    </div>
   </div>
-  <div class="body">
-    <form id="mainnoteform" action="{% url "notesenter" %}">
-      {%csrf_token%}
-      <div class="formfield">
-        {{form.date}}
-      </div>
-      <div class="formfield">
-        {{form.title}}
-      </div>
-      <div class="formfield">
-        {{form.text}}
-      </div>
-    </form>
-  </div>
-  <div class="footer">
-    Something about the footer
-  </div>
-</div>
+  <script>
+    document.getElementById('currdate').value = new Date();
+    document.getElementById('currdate').setAttribute('readonly', 'true');
+    setInterval(function(){document.getElementById('currdate').value = new Date()},1000);
+  </script>
 </body>
+
 </html>
-
-

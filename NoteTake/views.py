@@ -71,3 +71,15 @@ def signin(request):
         except:
             return dhttp.HttpResponse("User Not Found")
 
+def takenote(request):
+    noteform = form.NoteForm(request.POST)
+    newnote = models.Note()
+    if noteform.is_valid():
+        newnote.date = noteform.cleaned_data['date']
+        newnote.title = noteform.cleaned_data['title']
+        newnote.text = noteform.cleaned_data['text']
+    else:
+        return dhttp.HttpResponse("Form not valid")
+    newnote.save()
+    return redirect("./notesenter");
+
