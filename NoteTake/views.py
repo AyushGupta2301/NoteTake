@@ -19,7 +19,7 @@ def signuppage(request):
 
 def logout(request):
     response = redirect("http://localhost:8000/notetake/")
-    response.set_cookie('login','false')
+    response.delete_cookie('login')
     return response
 
 def noteview(request):
@@ -34,7 +34,7 @@ def noteenter(request):
     try:
         login = request.COOKIES['login']
         if(login=='true'):
-            return render(request,"notetake.html", {})
+            return render(request,"notetake.html", {'form':form.NoteForm()})
     except(KeyError):
         return redirect("http://localhost:8000/notetake/signinpage")
 

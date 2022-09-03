@@ -6,8 +6,8 @@ class LoginnSignupForm(forms.ModelForm):
         model = models.User
         fields  = ('username','password')
         widgets = {
-            'username' : forms.TextInput(),
-            'password' : forms.PasswordInput()
+            'username' : forms.TextInput(attrs={'class':'formfieldinner'}),
+            'password' : forms.PasswordInput(attrs={'class':'formfieldinner'})
         }
 
 class NoteForm(forms.ModelForm):
@@ -15,7 +15,7 @@ class NoteForm(forms.ModelForm):
         model = models.Note
         fields = ('date','title','text')
         widgets = {
-            'date' : forms.DateInput(),
-            'title': forms.TextInput(),
-            'text':forms.Textarea()
+            'date' : forms.DateInput(attrs={'class':'formfieldinner'}),
+            'title': forms.TextInput(attrs={'class':'formfieldinner'}),
+            'text':forms.Textarea(attrs={'class':'formfieldinner'})
         }
