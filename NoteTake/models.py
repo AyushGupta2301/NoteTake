@@ -6,6 +6,6 @@ class User(models.Model):
 
 
 class Note(models.Model):
-    date = models.DateField()
+    date = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=100000)

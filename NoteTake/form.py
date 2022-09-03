@@ -15,7 +15,7 @@ class NoteForm(forms.ModelForm):
         model = models.Note
         fields = ('date','title','text')
         widgets = {
-            'date' : forms.DateInput(attrs={'class':'formfieldinner'}),
-            'title': forms.TextInput(attrs={'class':'formfieldinner'}),
-            'text':forms.Textarea(attrs={'class':'formfieldinner'})
+            'date' : forms.TextInput(attrs={'class':'formfieldinner','id':'currdate'}),
+            'title': forms.TextInput(attrs={'class':'formfieldinner','placeholder':'Title'}),
+            'text': forms.Textarea(attrs={'placeholder':'Enter Your Note Here...'})
         }
