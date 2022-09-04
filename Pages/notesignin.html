@@ -4,43 +4,97 @@
     <title>Sign In page</title>
     <style>
         body {
-            background-color: bisque;
+            background-color: white;
         }
 
-        #mainbody {
-            position: relative;
+        .mainwrapper {
+            text-align: center;
         }
 
-        #mainform{
-            position: absolute;
-            right:45%;
+        .upperfiller {
+            height: 200px;
         }
-        
+
+        .header {
+            font-size: xx-large;
+            background-color: #1abc9c;
+            color: white;
+            height: fit-content;
+        }
+
+        .header h2 ,.header h4{
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .mainbody {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            background-color: #f1f1f1;
+            border: 3px solid transparent;
+        }
+
+        .formfield {
+            padding: 5px;
+        }
+
+        .formfieldinner {
+            height: 30px;
+            width: 300px;
+            border-radius: 15px;
+            padding: 15px;
+            outline: none;
+            border: transparent;
+        }
+
+        #mainform input[type=submit] {
+            width: 100px;
+            font-size: large;
+            border-radius: 10px;
+            border: hidden;
+            background-color: #1abc9c;
+            opacity: 0.8;
+            transition: width 1s;
+        }
+
+        #mainform input[type=submit]:hover {
+            opacity: 1;
+            cursor: pointer;
+            width: 150px;
+        }
     </style>
 
 <body>
-    <center>
-        <h2>Sign In</h2>
-    </center>
-    <div id="mainbody">
-        <form method="POST" id="mainform" action = "{% url "signin" %}">
-            {%csrf_token%}
-            <div class="formfield">
-                <!-- <input type="text" placeholder="Username" name="username" /> -->
-                {{form.username}}
-            </div>
-            <div class="formfield">
-                <!-- <input type="password" placeholder="Password" name="password" /> -->
-                {{form.password}}
-            </div>
-            <div class="formfield">
-                <button type="submit" value="Login">
-                    <strong>Sign In</strong>
-                </button>
-            </div>
-            Don't have an account? <a href="/notetake/signuppage"> Sign up </a>
-        </form>
+    <div class="mainwrapper">
+        <div class="upperfiller"></div>
+        <div class="header">
+            <h2>Sign In</h2>
+            <h4>To Resume Your Session</h4>
+        </div>
+        <div class="mainbody">
+            <form method="POST" id="mainform" action="{% url "signin" %}">
+                {%csrf_token%}
+                <div class="formfield">
+                    {{form.username}}
+                </div>
+                <div class="formfield">
+                    {{form.password}}
+                </div>
+                <div class="formfield">
+                    <input type="submit" value="Sign In">
+                </div>
+                <div class="formfield">
+                    Don't have an account? <a href="/notetake/signuppage"> Sign up </a>
+                </div>
+            </form>
+        </div>
     </div>
+    <script>
+        document.getElementById('username').setAttribute('placeholder','Username');
+        document.getElementById('password').setAttribute('placeholder','Password');
+    </script>
 </body>
 
 </html>

@@ -6,8 +6,8 @@ class LoginnSignupForm(forms.ModelForm):
         model = models.User
         fields  = ('username','password')
         widgets = {
-            'username' : forms.TextInput(attrs={'class':'formfieldinner'}),
-            'password' : forms.PasswordInput(attrs={'class':'formfieldinner'})
+            'username' : forms.TextInput(attrs={'class':'formfieldinner','id':'username'}),
+            'password' : forms.PasswordInput(attrs={'class':'formfieldinner','id':'password'})
         }
 
 class NoteForm(forms.ModelForm):
