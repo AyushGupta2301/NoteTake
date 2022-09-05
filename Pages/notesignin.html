@@ -31,7 +31,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 200px;
+            height: 250px;
             background-color: #f1f1f1;
             border: 3px solid transparent;
         }
@@ -71,7 +71,7 @@
         <div class="upperfiller"></div>
         <div class="header">
             <h2>Sign In</h2>
-            <h4>To Resume Your Session</h4>
+            <h4>{{signin_comment}}</h4>
         </div>
         <div class="mainbody">
             <form method="POST" id="mainform" action="{% url "signin" %}">
@@ -84,6 +84,9 @@
                 </div>
                 <div class="formfield">
                     <input type="submit" value="Sign In">
+                </div>
+                <div class="formfield">
+                    {{signin_error}}
                 </div>
                 <div class="formfield">
                     Don't have an account? <a href="/notetake/signuppage"> Sign up </a>

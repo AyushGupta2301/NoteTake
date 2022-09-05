@@ -6,7 +6,7 @@ class LoginnSignupForm(forms.ModelForm):
         model = models.User
         fields  = ('username','password')
         widgets = {
-            'username' : forms.TextInput(attrs={'class':'formfieldinner','id':'username'}),
+            'username' : forms.TextInput(attrs={'class':'formfieldinner','id':'username','autocomplete':'off'}),
             'password' : forms.PasswordInput(attrs={'class':'formfieldinner','id':'password'})
         }
 
@@ -16,6 +16,6 @@ class NoteForm(forms.ModelForm):
         fields = ('date','title','text')
         widgets = {
             'date' : forms.TextInput(attrs={'class':'formfieldinner','id':'currdate'}),
-            'title': forms.TextInput(attrs={'class':'formfieldinner','placeholder':'Title'}),
+            'title': forms.TextInput(attrs={'class':'formfieldinner','placeholder':'Title','autocomplete':'off'}),
             'text': forms.Textarea(attrs={'placeholder':'Enter Your Note Here...'})
         }

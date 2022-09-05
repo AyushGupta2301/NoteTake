@@ -1,4 +1,5 @@
 from gettext import find
+import base64
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import redirect, render
 import django.http as dhttp
@@ -10,20 +11,29 @@ import NoteTake.models as models
 def homeview(request):
     response = render(request, "home.html", {}) 
     response.set_cookie('entry','false')
+    response.set_cookie('signup','false')
     try:
         request.COOKIES['login']
-        return response
     except(KeyError):
         response.set_cookie('login','false')
+    try:
+        request.COOKIES['curruser']
+        return response
+    except(KeyError):
+        response.set_cookie('curruser','none')
         return response
 
 def signinpage(request):
     try:
         login = request.COOKIES['login']
+        signup = request.COOKIES['signup']
         if(login=='false'):
-            return render(request,"notesignin.html",{'form': form.LoginnSignupForm()})
+            if(signup=='true'):
+                return render(request,"notesignin.html",{'form': form.LoginnSignupForm(), 'signin_comment':'Your Sign Up Was Successful'})
+            else:
+                return render(request,"notesignin.html",{'form': form.LoginnSignupForm(), 'signin_comment':'To Resume Your Session'})
     except(KeyError):
-        dhttp.HttpResponse("Please Enable Cookies and try again")
+        return dhttp.HttpResponse("Please Enable Cookies and try again")
 
 def signuppage(request):
     try:
@@ -37,13 +47,14 @@ def signuppage(request):
 def logout(request):
     response = redirect("http://localhost:8000/notetake/")
     response.set_cookie('login','false')
+    response.set_cookie('curruser','none')
     return response
 
 def noteview(request):
     try:
         login = request.COOKIES['login']
         if(login=='true'):
-            return render(request,"noteview.html", {})
+            return render(request,"notesearch.html", {})
         else:
             return redirect("http://localhost:8000/notetake/signinpage")
     except(KeyError):
@@ -69,10 +80,16 @@ def signup(request):
         if signupform.is_valid():
             newuser.username = signupform.cleaned_data['username']
             newuser.password = signupform.cleaned_data['password']
+            newuser.userid = str(base64.b64encode(newuser.username.encode("ascii")))[2:-1]
         else:
-            return dhttp.HttpResponse("Form not valid")
+            response = dhttp.HttpResponse("Form not valid")
+            response.set_cookie('signup','true')
+            return response
+        
         newuser.save()
-        return dhttp.HttpResponse("Sign Up Successful now sign in")
+        response = redirect('./signinpage')
+        response.set_cookie('signup','true')
+        return response
 
 def signin(request):
     if(request.method == "POST"):
@@ -84,16 +101,17 @@ def signin(request):
         else:
             return dhttp.HttpResponse("Form not valid")
         find_user = ''
-        try:
+        try: 
             find_user = models.User.objects.get(username=user.username)
             if(user.password == find_user.password):
                 response = redirect("http://localhost:8000/notetake/")
                 response.set_cookie('login','true')
+                response.set_cookie('curruser',find_user.userid)
                 return response
             else:
-                return dhttp.HttpResponse("Password Mismatch")
+                return render(request,"notesignin.html",{'form': form.LoginnSignupForm(), 'signin_error':'Please Check the Fields and try again', 'signin_comment':'To Resume Your Session'})
         except:
-            return dhttp.HttpResponse("User Not Found")
+            return render(request,"notesignin.html",{'form': form.LoginnSignupForm(), 'signin_error':'Please Check the Fields and try again', 'signin_comment':'To Resume Your Session'})
 
 def takenote(request):
     noteform = form.NoteForm(request.POST)
@@ -102,10 +120,10 @@ def takenote(request):
         newnote.date = noteform.cleaned_data['date']
         newnote.title = noteform.cleaned_data['title']
         newnote.text = noteform.cleaned_data['text']
+        newnote.userid = request.COOKIES['curruser']
     else:
         return dhttp.HttpResponse("Form not valid")
     newnote.save()
     response = redirect("./notesenter")
     response.set_cookie('entry','true')
     return response
-
