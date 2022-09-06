@@ -17,5 +17,13 @@ class NoteForm(forms.ModelForm):
         widgets = {
             'date' : forms.TextInput(attrs={'class':'formfieldinner','id':'currdate'}),
             'title': forms.TextInput(attrs={'class':'formfieldinner','placeholder':'Title','autocomplete':'off'}),
-            'text': forms.Textarea(attrs={'placeholder':'Enter Your Note Here...'})
+            'text': forms.Textarea(attrs={'placeholder':'Enter Your Note Here...','class':'formfieldinner'})
         }
+        def __init__(self,*args,**kwargs):
+            self.date = kwargs.pop('date')
+            self.title = kwargs.pop('title')
+            self.text = kwargs.pop('text')
+            super(NoteForm, self).__init__(*args,**kwargs)
+            self.fields['date'].widget = forms.TextInput(attrs={'class':'formfieldinner','id':'currdate','readonly':'true','value':self.date})
+            self.fields['text'].widget = forms.Textarea(attrs={'readonly':'true','id':'currtext','value':self.text})
+            self.field['title'].widget = forms.TextInput(attrs={'class':'formfieldinner','readonly':'true','id':'currtitle','value':self.title})

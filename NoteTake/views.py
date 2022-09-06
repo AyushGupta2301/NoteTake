@@ -1,10 +1,12 @@
 from gettext import find
 import base64
+import re
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import redirect, render
 import django.http as dhttp
 import NoteTake.form as form 
 import NoteTake.models as models
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -54,7 +56,7 @@ def noteview(request):
     try:
         login = request.COOKIES['login']
         if(login=='true'):
-            return render(request,"notesearch.html", {})
+            return render(request,"notesearch.html", {}) # only parsing this form so that the csrf token is valid
         else:
             return redirect("http://localhost:8000/notetake/signinpage")
     except(KeyError):
@@ -127,3 +129,33 @@ def takenote(request):
     response = redirect("./notesenter")
     response.set_cookie('entry','true')
     return response
+
+@csrf_exempt # for getting the input field data without passing a form
+def searchnote(request):
+    search_query = request.POST['title'] #retrieving like this because I used a from but not with both fields (could've used JS to populate both fields)
+    queryarr = search_query.split('%')
+    notes = {'title':'default','date':'default'}
+    if(queryarr[0]=='title'):
+        title_query = queryarr[1]
+        limit = int(queryarr[2])
+        userid = request.COOKIES['curruser']
+        notes = (models.Note.objects.filter(userid=userid) & models.Note.objects.order_by('date').filter(title__startswith = title_query))[:limit]
+    elif(queryarr[0]=='date'):
+        date_query = queryarr[1]
+        limit = int(queryarr[2])
+        userid = request.COOKIES['curruser']
+        notes = (models.Note.objects.filter(userid=userid) & models.Note.objects.order_by('date').filter(date__startswith = date_query))[:limit]
+    resp = ''
+    for x in notes:
+        resp += '<li><form method="POST" action="/notetake/viewnote">'
+        respend = '</form></li>'
+        resp += '<input type="text" value="'+x.title+'" readonly="true" name="title" hidden="true"><input type="submit" value="'+x.title+str(" -- Taken On -- ")+x.date+'"class="resformfieldinner">' 
+        resp+= respend
+    return render(request,'notesearch.html',{'results':resp})
+
+@csrf_exempt
+def viewnote(request):
+    qtitle = request.POST.get('title','NONE')
+    note = models.Note.objects.get(title=qtitle)
+    notedict = {'date':note.date,'title':note.title,'text':note.text}
+    return render(request,'notedisplay.html',{'form':form.NoteForm(notedict)}) 

@@ -2,14 +2,14 @@
 <html>
 
 <head>
-  <title>Note Searching page</title>
+  <title>Note Viewing page</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       font-family: Arial;
       margin: 0;
-      /* overflow-y: hidden; */
+      overflow-y: hidden;
     }
 
     #noteslink {
@@ -67,13 +67,52 @@
       font-size: 18px;
       font-family: monospace;
       padding: 20px;
-      opacity: 0.5;
+      opacity: 1;
       border-radius: 15px;
       outline: none;
       border: hidden;
     }
 
-    .formfieldinner:focus {
+    #currdate:hover, #currdate:hover{
+      width: 90%;
+      height: 50px;
+      font-size: 18px;
+      font-family: monospace;
+      padding: 20px;
+      opacity: 1.0;
+      border-radius: 15px;
+      outline: none;
+      border: hidden;
+    }
+    
+
+    #mainnoteform textarea {
+      width: 90%;
+      height: 500px;
+      font-size: 18px;
+      font-family: monospace;
+      padding: 20px;
+      opacity: 1;
+      border-radius: 15px;
+      outline: none;
+      border: hidden;
+    }
+
+    #mainnoteform textarea:hover{
+      width: 90%;
+      height: 500px;
+      font-size: 18px;
+      font-family: monospace;
+      padding: 20px;
+      opacity: 1.0;
+      border-radius: 15px;
+      background-color: #FFFFFF;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      outline: none;
+      border: hidden;
+    }
+
+    .formfieldinner:hover {
       width: 90%;
       height: 50px;
       font-family: monospace;
@@ -103,46 +142,10 @@
       width: 200px;
     }
 
-    .results{
-      text-align: center;
-      padding: 50px;
-    }
-
-    .resformfieldinner{
-      text-align: left;
-      width: 90%;
-      height: 70px;
-      font-size: 18px;
-      font-family: monospace;
-      padding: 20px;
-      opacity: 1;
-      border-radius: 15px;
-      outline: none;
+    .footer{
+      background-color: #f1f1f1;
       border: 2px solid transparent;
-    }
-
-    .resformfieldinner:hover{
-      text-align: left;
-      width: 90%;
-      height: 70px;
-      font-size: 18px;
-      cursor: pointer;
-      font-family: monospace;
-      padding: 20px;
-      opacity: 1;
-      border-radius: 15px;
-      outline: none;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      border: 2px solid transparent;
-    }
-
-    #reslist{
-      list-style-type: none;
-    }
-
-    #reslist li{
-      padding: 15px;
-
+      height: 200px;
     }
 
     div {
@@ -154,7 +157,7 @@
 <body>
   <div class="maincontainer">
     <div class="navbar">
-      <div class="navheading">NoteTake - Note Searching Page</div>
+      <div class="navheading">NoteTake - Note Viewing Page</div>
       <ul id="mainnavbar">
         <li><a id="noteslink" href="/notetake/">Home</a></li>
         <li><a id="noteslink" href="/notetake/notesenter">Take Notes</a></li>
@@ -163,27 +166,31 @@
       </ul>
     </div>
     <div class="body">
-      <form id="mainnoteform" action="{% url "searchnote" %}" method="POST">
-        <!-- {%csrf_token%} -->
+      <form id="mainnoteform" action="{% url "takenote" %}" method="POST">
+        {%csrf_token%}
         <div class="formfield">
-            <input type="text" class="formfieldinner" name="title">
+          {{form.date}}
         </div>
         <div class="formfield">
-            <input type="submit" value="Submit">
+          {{form.title}}
         </div>
+        <div class="formfield">
+          {{form.text}}
+        </div>
+        <!-- <div class="formfield">
+          <input type="submit" value="Submit Note">
+        </div> -->
       </form>
     </div>
-    <div class="results">
-      <ul id="reslist">
-        {% autoescape off %}
-          {{results}}
-        {% endautoescape %}
-      </ul>
+    <div class="footer">
+      {{note_entry}}
+      <!-- Empty for later use might display recent notes or something -->
     </div>
   </div>
   <script>
-    document.getElementsByClassName('formfieldinner')[0].setAttribute('placeholder','Search By Title');
+    document.getElementsByClassName('formfieldinner')[0].setAttribute('readonly','true');
+    document.getElementsByClassName('formfieldinner')[1].setAttribute('readonly','true');
+    document.getElementsByClassName('formfieldinner')[2].setAttribute('readonly','true');
   </script>
 </body>
-
 </html>

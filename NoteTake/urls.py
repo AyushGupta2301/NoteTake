@@ -28,6 +28,7 @@ urlpatterns = [
     path('notetake/signup',ntv.signup,name='signup'),
     path('notetake/signin',ntv.signin,name='signin'),
     path('notetake/takenote',ntv.takenote,name='takenote'),
+    path('notetake/searchnote',ntv.searchnote,name='searchnote'),
+    path('notetake/viewnote',ntv.viewnote,name='viewnote'),
     path('notetake/logout',ntv.logout,name='logout')
-    # path('main/',ntv.somemessage,name='message')
 ]
