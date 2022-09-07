@@ -148,14 +148,19 @@ def searchnote(request):
     resp = ''
     for x in notes:
         resp += '<li><form method="POST" action="/notetake/viewnote">'
-        respend = '</form></li>'
+        # respend = 
+        resp += '<input type="text" value="'+x.date+'" readonly="true" name="date" hidden="true">'
         resp += '<input type="text" value="'+x.title+'" readonly="true" name="title" hidden="true"><input type="submit" value="'+x.title+str(" -- Taken On -- ")+x.date+'"class="resformfieldinner">' 
-        resp+= respend
+        resp+= '</form></li>'
     return render(request,'notesearch.html',{'results':resp})
 
 @csrf_exempt
 def viewnote(request):
+    # print(request.POST)
     qtitle = request.POST.get('title','NONE')
-    note = models.Note.objects.get(title=qtitle)
-    notedict = {'date':note.date,'title':note.title,'text':note.text}
+    qdate = request.POST.get('date','NONE')
+    note = models.Note.objects.filter(title=qtitle) & models.Note.objects.filter(date=qdate)
+    # print(qtitle,qdate)
+    # print(note[0].date)
+    notedict = {'date':note[0].date,'title':note[0].title,'text':note[0].text}
     return render(request,'notedisplay.html',{'form':form.NoteForm(notedict)}) 
