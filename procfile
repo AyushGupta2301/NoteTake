@@ -1,1 +1,1 @@
-web: gunicorn NoteTake.wsgi --log-file -
+web: gunicorn NoteTake.wsgi
