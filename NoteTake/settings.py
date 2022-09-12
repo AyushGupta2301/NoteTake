@@ -29,7 +29,7 @@ SECRET_KEY = 'l^cib7cgu!=cu@-sb)4n^=%cp!&n#tq4$f&=1k$c37-vo!@tsj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.localhost','127.0.0.1','sampledomain.com']
+ALLOWED_HOSTS = ['.localhost','127.0.0.1','https://notetake2301.herokuapp.com/']
 
 
 # Application definition
