@@ -26,9 +26,9 @@ TEMPLATE_DIRS = [
 SECRET_KEY = 'l^cib7cgu!=cu@-sb)4n^=%cp!&n#tq4$f&=1k$c37-vo!@tsj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.localhost','127.0.0.1','sampledomain.com']
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,7 +83,13 @@ WSGI_APPLICATION = 'NoteTake.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'notes_data'
+        "CLIENT": {
+           "name": "notes_data",
+           "host": "mongodb+srv://admin2:admin@cluster0.qbbwc.mongodb.net/?retryWrites=true&w=majority",
+           "username": "admin2",
+           "password": "admin",
+           "authMechanism": "SCRAM-SHA-1",
+        },
     }
 }
 
