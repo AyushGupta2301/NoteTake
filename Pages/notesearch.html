@@ -169,6 +169,18 @@
             <input type="text" class="formfieldinner" name="title">
         </div>
         <div class="formfield">
+          <p>
+            <h3>Guidelines For Searching:</h3>
+            The search query has three parts separated by '%' --> Search Type, Query and Limit <br>
+            <ul style="list-style-type: none;">
+              <li>To search by title --> title%....</li>
+              <li>To search by date --> date%... (Format : Tue 02 Sep 2022)</li>
+            </ul>
+            Example:
+            <b>title%Python%10 --> will display 10 notes whose title start with Python</b> <br>
+            Note: 
+            Notes Will be displayed ordered by date and time oldest first            
+          </p>
             <input type="submit" value="Submit">
         </div>
       </form>
@@ -182,7 +194,7 @@
     </div>
   </div>
   <script>
-    document.getElementsByClassName('formfieldinner')[0].setAttribute('placeholder','Search By Title');
+    document.getElementsByClassName('formfieldinner')[0].setAttribute('placeholder','Search');
   </script>
 </body>
 

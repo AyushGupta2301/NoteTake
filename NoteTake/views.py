@@ -47,7 +47,7 @@ def signuppage(request):
     
 
 def logout(request):
-    response = redirect("http://localhost:8000/notetake/")
+    response = redirect("/notetake/")
     response.set_cookie('login','false')
     response.set_cookie('curruser','none')
     return response
@@ -58,7 +58,7 @@ def noteview(request):
         if(login=='true'):
             return render(request,"notesearch.html", {}) # only parsing this form so that the csrf token is valid
         else:
-            return redirect("http://localhost:8000/notetake/signinpage")
+            return redirect("/notetake/signinpage")
     except(KeyError):
         return dhttp.HttpResponse("Please enable cookies and try again")
 
@@ -71,7 +71,7 @@ def noteenter(request):
             else:
                 return render(request,"notetake.html", {'form':form.NoteForm(),'note_entry':'Note Taken Successfully :)'})
         else:
-            return redirect("http://localhost:8000/notetake/signinpage")
+            return redirect("/notetake/signinpage")
     except(KeyError):
         return dhttp.HttpResponse("Please enable cookies and try again") 
 
@@ -106,7 +106,7 @@ def signin(request):
         try: 
             find_user = models.User.objects.get(username=user.username)
             if(user.password == find_user.password):
-                response = redirect("http://localhost:8000/notetake/")
+                response = redirect("/notetake/")
                 response.set_cookie('login','true')
                 response.set_cookie('curruser',find_user.userid)
                 return response
